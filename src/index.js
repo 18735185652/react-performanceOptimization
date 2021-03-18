@@ -1,17 +1,31 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+// import Home from './components/Home'
+// import User from './components/User'
+import {HashRouter,Link,Route} from 'react-router-dom'
+
+import {dynamic} from './utils'
+
+let LazyHome = dynamic(()=>import(  
+  /* webpackPrefetch: true */
+  /*webpackChunkName: 'Home'*/'./components/Home'))
+let LazyUser = dynamic(()=>import( 
+  /* webpackPrefetch: true */
+  /*webpackChunkName: 'User'*/'./components/User'))
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <HashRouter>
+     <div>
+     <ul>
+        <li><Link to='/'> Home </Link></li>
+        <li><Link to='/user'> User </Link></li>
+      </ul>
+      <Route exact={true} path='/' component={LazyHome}/>
+      <Route path='/user' component={LazyUser}/>
+     </div>
+
+  </HashRouter>,
   document.getElementById('root')
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+
